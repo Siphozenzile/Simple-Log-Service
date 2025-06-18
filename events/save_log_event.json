@@ -1,0 +1,7 @@
+{
+  "httpMethod": "POST",
+  "path": "/log",
+  "resource": "/log",
+  "body": "{\"Severity\": \"info\", \"Message\": \"This is a test log entry\"}",
+  "isBase64Encoded": false
+}

@@ -1,0 +1,6 @@
+{
+  "httpMethod": "GET",
+  "path": "/logs",
+  "resource": "/logs",
+  "isBase64Encoded": false
+}

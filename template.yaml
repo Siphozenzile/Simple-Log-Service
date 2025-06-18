@@ -1,0 +1,63 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+
+Description: >
+  Simple Log Service Application using AWS SAM
+
+Globals:
+  Function:
+    Timeout: 10  # Optional: Set default timeout for all functions
+
+Resources:
+  LogTable:
+    Type: AWS::DynamoDB::Table
+    Properties:
+      TableName: LogTable
+      AttributeDefinitions:
+        - AttributeName: ID
+          AttributeType: S
+      KeySchema:
+        - AttributeName: ID
+          KeyType: HASH
+      BillingMode: PAY_PER_REQUEST
+
+  SaveLogFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      Handler: lambda_functions/save_log.lambda_handler
+      Runtime: python3.13
+      Environment:
+        Variables:
+          TABLE_NAME: !Ref LogTable
+      Policies:
+        - DynamoDBCrudPolicy:
+            TableName: !Ref LogTable
+      Events:
+        SaveLogApi:
+          Type: Api
+          Properties:
+            Path: /log
+            Method: post
+
+  GetLogsFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      Handler: lambda_functions/get_log.lambda_handler
+      Runtime: python3.13
+      Environment:
+        Variables:
+          TABLE_NAME: !Ref LogTable
+      Policies:
+        - DynamoDBReadPolicy:
+            TableName: !Ref LogTable
+      Events:
+        GetLogsApi:
+          Type: Api
+          Properties:
+            Path: /logs
+            Method: get
+
+Outputs:
+  ApiUrl:
+    Description: "API Gateway endpoint URL"
+    Value: !Sub "https://${ServerlessRestApi}.execute-api.${AWS::Region}.amazonaws.com/Prod/"
