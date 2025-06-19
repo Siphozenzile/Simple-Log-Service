@@ -17,7 +17,7 @@ jobs:
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
-          python-version: '3.13'   # Or fallback to 3.11 if 3.13 isn't on GitHub runners yet
+          python-version: '3.11'   # Or fallback to 3.11 if 3.13 isn't on GitHub runners yet
 
       - name: Install AWS SAM CLI
         run: |
