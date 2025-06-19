@@ -1,0 +1,30 @@
+name: Validate and Build AWS SAM App
+
+on:
+  push:
+    branches:
+      - main   # or 'master', depending on your default branch
+  pull_request:
+
+jobs:
+  build-and-validate:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout Source
+      uses: actions/checkout@v4
+
+    - name: Setup Python
+      uses: actions/setup-python@v5
+      with:
+        python-version: '3.11'  # AWS SAM supports stable Python 3.x
+
+    - name: Install AWS SAM CLI
+      run: |
+        pip install aws-sam-cli
+
+    - name: Validate AWS SAM Template
+      run: sam validate
+
+    - name: Build AWS SAM App
+      run: sam build
