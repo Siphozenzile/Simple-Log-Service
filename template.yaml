@@ -6,7 +6,7 @@ Description: >
 
 Globals:
   Function:
-    Timeout: 10  # Optional: Set default timeout for all functions
+    Timeout: 10  # default timeout for all functions
 
 Resources:
   LogTable:
