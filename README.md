@@ -110,19 +110,9 @@ curl -X POST http://localhost:3000/log \
 curl http://localhost:3000/logs
 ```
 
-You can also use the provided event files to test individual functions:
-
-```bash
-# Test save_log function
-sam local invoke SaveLogFunction --event events/save_log_event.json
-
-# Test get_logs function
-sam local invoke GetLogsFunction --event events/get_logs_event.json
-```
-
 ## Load Testing
 
-The project includes a load testing script in the `test` directory:
+The project includes a load testing script in the `test` directory to send 100 test log entries:
 
 ```bash
 # Install requirements
@@ -131,14 +121,14 @@ pip install -r test/requirements.txt
 # Run load test (replace with your API endpoint)
 python test/load_test.py --url https://your-api-id.execute-api.region.amazonaws.com/Prod/
 ```
+![alt text](<100 POST test using python script.PNG>)
 
 ## CI/CD
 
 The project includes a GitHub Actions workflow in `.github/workflows/sam-pipeline.yml` for continuous integration and deployment. This pipeline will automatically:
 
 1. Build and deploy your application whenever you push changes to the main branch
-2. Run tests to verify functionality
-3. Deploy to AWS using the SAM CLI
+2. Deploy to AWS using the SAM CLI
 
 To use the CI/CD pipeline:
 
