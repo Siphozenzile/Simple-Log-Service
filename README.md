@@ -46,6 +46,7 @@ Saves a new log entry to the database.
   "message": "Log saved successfully."
 }
 ```
+![alt text](<test POST from postman.PNG>)
 
 ### GET /logs
 Retrieves the 100 most recent log entries, sorted by timestamp (newest first).
@@ -62,6 +63,7 @@ Retrieves the 100 most recent log entries, sorted by timestamp (newest first).
   ...
 ]
 ```
+![alt text](<test GET from postman.PNG>)
 
 ## Deployment
 
@@ -71,15 +73,27 @@ Retrieves the 100 most recent log entries, sorted by timestamp (newest first).
 - [Docker](https://hub.docker.com/search/?type=edition&offering=community) (for local testing)
 - AWS Account and configured credentials
 
-### Deploy to AWS
+### How to deploy to AWS
 
 ```bash
+# Validate the SAM template
+sam validate
+
 # Build the application
 sam build --use-container
 
 # Deploy with guided prompts
 sam deploy --guided
 ```
+
+During the guided deployment, you'll be prompted for:
+- Stack Name: Name for your CloudFormation stack (e.g., "simple-log-service")
+- AWS Region: Region to deploy to (e.g., "us-east-1")
+- Confirm changes before deploy: Recommended "yes" for first deployment
+- Allow SAM CLI IAM role creation: Enter "yes" (required for Lambda permissions)
+- Save arguments to samconfig.toml: Enter "yes" to save settings for future deployments
+
+After deployment completes, the output will show your API Gateway endpoint URL.
 
 ### Local Testing
 
@@ -120,7 +134,26 @@ python test/load_test.py --url https://your-api-id.execute-api.region.amazonaws.
 
 ## CI/CD
 
-The project includes a GitHub Actions workflow in `.github/workflows/sam-pipeline.yml` for continuous integration and deployment.
+The project includes a GitHub Actions workflow in `.github/workflows/sam-pipeline.yml` for continuous integration and deployment. This pipeline will automatically:
+
+1. Build and deploy your application whenever you push changes to the main branch
+2. Run tests to verify functionality
+3. Deploy to AWS using the SAM CLI
+
+To use the CI/CD pipeline:
+
+```bash
+# Add your changes
+git add .
+
+# Commit your changes
+git commit -m "Your commit message"
+
+# Push to the main branch
+git push origin main
+```
+
+After pushing, GitHub Actions will automatically trigger the workflow defined in the sam-pipeline.yml file, and your changes will be deployed to AWS without manual intervention.
 
 ## Cleanup
 
