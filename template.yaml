@@ -25,7 +25,7 @@ Resources:
     Type: AWS::Serverless::Function
     Properties:
       Handler: lambda_functions/save_log.lambda_handler
-      Runtime: python3.13
+      Runtime: python3.11
       Environment:
         Variables:
           TABLE_NAME: !Ref LogTable
@@ -43,7 +43,7 @@ Resources:
     Type: AWS::Serverless::Function
     Properties:
       Handler: lambda_functions/get_log.lambda_handler
-      Runtime: python3.13
+      Runtime: python3.11
       Environment:
         Variables:
           TABLE_NAME: !Ref LogTable
