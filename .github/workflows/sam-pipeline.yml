@@ -17,7 +17,7 @@ jobs:
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
-          python-version: '3.11'   # Or fallback to 3.11 if 3.13 isn't on GitHub runners yet
+          python-version: '3.11'   
 
       - name: Install AWS SAM CLI
         run: |
@@ -28,7 +28,7 @@ jobs:
         with:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-region: us-east-1  # Your region
+          aws-region: us-east-1  
 
       - name: Build SAM Application
         run: sam build
@@ -36,7 +36,14 @@ jobs:
       - name: Validate SAM Template
         run: sam validate
 
+      # Bandit Security Check
+
+      - name: Install Bandit for Security Scanning
+        run: pip install bandit
+
+      - name: Run Bandit Security Scan
+        run: bandit -r lambda_functions
+
       - name: Deploy SAM Application
         run: |
           sam deploy --no-confirm-changeset --no-fail-on-empty-changeset --stack-name log-service --capabilities CAPABILITY_IAM --region us-east-1
-
