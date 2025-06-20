@@ -145,6 +145,8 @@ git push origin main
 
 After pushing, GitHub Actions will automatically trigger the workflow defined in the sam-pipeline.yml file, and your changes will be deployed to AWS without manual intervention.
 
+![alt text](build-validate-deploy.PNG)
+
 ## Cleanup
 
 To delete all resources created by this application:
